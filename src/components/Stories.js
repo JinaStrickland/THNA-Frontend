@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import { fetchSearchedWord, fetchStoriesByTitle, fetchStoriesByAuthor } from '../actions'
@@ -6,13 +6,10 @@ import './Stories.css'
 
 const Stories= (props) => {
 
-  const [ showStories, changeShowStories ] = useState(false)
-
   const handleSubmit = (e) => {
     e.preventDefault()
     if (e.target[0].name === "title") {
       props.fetchStoriesByTitle(props.searchedWord)
-      changeShowStories(!showStories)
     } 
     else if (e.target[0].name === "author") {
         props.fetchStoriesByAuthor(props.searchedWord)
@@ -39,23 +36,7 @@ const Stories= (props) => {
         </input>
         <button > Search </button>
       </form>
-
-        { props.storiesByTitle && props.storiesByTitle.map(story => {
-            return (
-              <div key={ story.title } >
-                    <h6> 
-                    { story.id } 
-                      { story.title }
-                      ( <a href={`${story.url}`}> 
-                        <span> {story.url} </span>
-                      </a> ) - By: { story.author }
-                    </h6>
-              </div>
-            )
-          })
-        }
-        
-        { props.storiesByAuthor && props.storiesByAuthor.map(story => {
+        { props.stories && props.stories.map(story => {
             return (
               <div key={ story.title } >
                     <h6> 
@@ -75,8 +56,7 @@ const Stories= (props) => {
 
 const mapStateToProps = (state) => {
   return {
-    storiesByTitle: state.storiesByTitle,
-    storiesByAuthor: state.storiesByAuthor,
+    stories: state.stories,
     searchedWord: state.searchedWord
   }
 }

@@ -1,16 +1,9 @@
 import { combineReducers } from 'redux'
 
-export const storiesByTitleReducer = (state=[], action) => {
+export const storiesReducer = (state=[], action) => {
     switch(action.type) {
         case 'FETCH_STORIES_BY_TITLE':
             return action.payload
-        default:
-            return state 
-    }
-}
-
-export const storiesByAuthorReducer = (state=[], action) => {
-    switch(action.type) {
         case 'FETCH_STORIES_BY_AUTHOR':
             return action.payload
         default:
@@ -28,7 +21,6 @@ export const searchedWordReducer = (word="", action) => {
 }
 
 export default combineReducers({
-    storiesByTitle: storiesByTitleReducer,
-    storiesByAuthor: storiesByAuthorReducer,
+    stories: storiesReducer,
     searchedWord: searchedWordReducer
 })

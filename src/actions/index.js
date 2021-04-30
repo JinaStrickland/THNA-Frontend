@@ -1,5 +1,3 @@
-// frontPage = "http://hn.algolia.com/api/v1/search?tags=front_page"
-
 export const fetchStoriesByTitle = (word) => async dispatch => {
     const apiResponse = await fetch(`http://hn.algolia.com/api/v1/search?query=${word}&tags=story`)
     const storiesData = await apiResponse.json()
