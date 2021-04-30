@@ -1,12 +1,8 @@
-// const frontPage = "http://hn.algolia.com/api/v1/search?tags=front_page"
-
-const TITLE = "https://hn.algolia.com/api/v1/search?query="
-const AUTHOR = "https://hn.algolia.com/api/v1/search?tags=story,author_"
+// frontPage = "http://hn.algolia.com/api/v1/search?tags=front_page"
 
 export const fetchStoriesByTitle = (word) => async dispatch => {
-    const apiResponse = await fetch(TITLE + word)
+    const apiResponse = await fetch(`http://hn.algolia.com/api/v1/search?query=${word}&tags=story`)
     const storiesData = await apiResponse.json()
-    console.log(`Inside fetchStoriesByTitle: ${word}` )
     dispatch(
         {
             type: 'FETCH_STORIES_BY_TITLE',
@@ -16,9 +12,8 @@ export const fetchStoriesByTitle = (word) => async dispatch => {
 }
 
 export const fetchStoriesByAuthor = (word) => async dispatch => {
-    const apiResponse = await fetch(AUTHOR + word)
+    const apiResponse = await fetch(`https://hn.algolia.com/api/v1/search?tags=story,author_${word}`)
     const storiesData = await apiResponse.json()
-    console.log(`Inside fetchStoriesByAuthor: ${word}` )
     dispatch(
         {
             type: 'FETCH_STORIES_BY_AUTHOR',

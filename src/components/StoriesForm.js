@@ -1,27 +1,25 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { connect } from 'react-redux'
 
 import { fetchSearchedWord, fetchStoriesByTitle, fetchStoriesByAuthor } from '../actions'
-import './Stories.css'
+import Stories from './Stories'
 
-const Stories= (props) => {
-
-  const [ showStories, changeShowStories ] = useState(false)
+const StoriesForm = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault()
     if (e.target[0].name === "title") {
       props.fetchStoriesByTitle(props.searchedWord)
-      changeShowStories(!showStories)
     } 
     else if (e.target[0].name === "author") {
-        props.fetchStoriesByAuthor(props.searchedWord)
+      props.fetchStoriesByAuthor(props.searchedWord)
     }
     e.target.reset()
   }
 
   return (
-    <div className="Stories">
+    <div>
+    <div>
       <form className="Content" onSubmit={ handleSubmit } >
         <input  type="text" placeholder="Search Stories By Title..." 
                 name="title"
@@ -39,35 +37,8 @@ const Stories= (props) => {
         </input>
         <button > Search </button>
       </form>
-
-        { props.storiesByTitle && props.storiesByTitle.map(story => {
-            return (
-              <div key={ story.title } >
-                    <h6> 
-                    { story.id } 
-                      { story.title }
-                      ( <a href={`${story.url}`}> 
-                        <span> {story.url} </span>
-                      </a> ) - By: { story.author }
-                    </h6>
-              </div>
-            )
-          })
-        }
-        { props.storiesByAuthor && props.storiesByAuthor.map(story => {
-            return (
-              <div key={ story.title } >
-                    <h6> 
-                    { story.id } 
-                      { story.title }
-                      ( <a href={`${story.url}`}> 
-                        <span> {story.url} </span>
-                      </a> ) - By: { story.author }
-                    </h6>
-              </div>
-            )
-          })
-        }
+    </div>
+    <Stories />
     </div>
   )
 }
@@ -86,4 +57,4 @@ export default connect(mapStateToProps, {
   fetchStoriesByTitle: fetchStoriesByTitle,
   fetchStoriesByAuthor: fetchStoriesByAuthor,
   fetchSearchedWord: fetchSearchedWord
-})(Stories)
+})(StoriesForm)
