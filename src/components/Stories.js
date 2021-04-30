@@ -54,6 +54,7 @@ const Stories= (props) => {
             )
           })
         }
+        
         { props.storiesByAuthor && props.storiesByAuthor.map(story => {
             return (
               <div key={ story.title } >
@@ -73,8 +74,6 @@ const Stories= (props) => {
 }
 
 const mapStateToProps = (state) => {
-  console.log("Inside maptStateToProp")
-  console.log(state)
   return {
     storiesByTitle: state.storiesByTitle,
     storiesByAuthor: state.storiesByAuthor,
