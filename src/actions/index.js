@@ -6,6 +6,7 @@ const AUTHOR = "https://hn.algolia.com/api/v1/search?tags=story,author_"
 export const fetchStoriesByTitle = (word) => async dispatch => {
     const apiResponse = await fetch(TITLE + word)
     const storiesData = await apiResponse.json()
+    debugger
     dispatch(
         {
             type: 'FETCH_STORIES_BY_TITLE',

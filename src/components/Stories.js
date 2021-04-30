@@ -1,5 +1,5 @@
 import React from 'react'
-import { connect } from 'react-redux'
+import { connect, useDispatch } from 'react-redux'
 
 import { fetchSearchedWord, fetchStoriesByTitle, fetchStoriesByAuthor } from '../actions'
 
@@ -7,8 +7,16 @@ import './Stories.css'
 
 const Stories = (props) => {
 
+  console.log(props)
+
+  const dispatch = useDispatch()
+  
   const getInputValue = (word) => {
-    fetchSearchedWord(word)
+    dispatch(props.fetchSearchedWord(word))
+  }
+
+  const handleSubmit = () => {
+    props.fetchStoriesByTitle(props.searchedWord)
   }
   
   return (
@@ -18,19 +26,38 @@ const Stories = (props) => {
                 onChange={(e) => getInputValue(e.target.value)}
                 style={{ width: "30%"}}>
         </input>
-        <button onClick={fetchStoriesByTitle(props.searchedWord)} >
+        <button onClick={handleSubmit} >
           Search
         </button>
       </form>
       <form className="Content" >
         <input type="text" placeholder="Search Stories By Author..." style={{ width: "30%"}}
-                onChange={(e) => getInputValue(e)} >
+                onChange={(e) => getInputValue(e.target.value)} >
         </input>
-        <button onClick={fetchStoriesByAuthor(props.searchedWord)} >
+        <button onClick={fetchStoriesByAuthor} >
           Search
         </button>
       </form>
-        {console.log(props.storiesByTitle)}
+        {console.log(`Inside component: ${props.storiesByTitle}`)}
+      
+        
+      {/* { storiesByTitle && storiesByTitle["hits"].map(hit => {
+        return (
+          <div >
+            <article >
+              <div>
+                <h6> 
+                  { hit.title }
+                  ( <a href={`${hit.url}`}> 
+                    <span> {hit.url} </span>
+                  </a> ) - By: {hit.author}
+                </h6>
+              </div>
+            </article>
+          </div>
+          )
+        })
+      } */}
     </div>
   )
 }
