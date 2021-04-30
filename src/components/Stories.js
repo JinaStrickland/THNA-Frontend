@@ -1,68 +1,78 @@
 import React from 'react'
-import { connect, useDispatch } from 'react-redux'
+import { connect } from 'react-redux'
 
 import { fetchSearchedWord, fetchStoriesByTitle, fetchStoriesByAuthor } from '../actions'
-
 import './Stories.css'
 
-const Stories = (props) => {
+const StoriesByTitle = (props) => {
 
-  console.log(props)
-
-  const dispatch = useDispatch()
-  
-  const getInputValue = (word) => {
-    dispatch(props.fetchSearchedWord(word))
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    if (e.target[0].name === "title") {
+      props.fetchStoriesByTitle(props.searchedWord)
+    } 
+    else if (e.target[0].name === "author") {
+        props.fetchStoriesByAuthor(props.searchedWord)
+    }
+    e.target.reset()
   }
 
-  const handleSubmit = () => {
-    props.fetchStoriesByTitle(props.searchedWord)
-  }
-  
   return (
     <div className="Stories">
-      <form className="Content" >
-        <input type="text" placeholder="Search Stories By Title..." 
-                onChange={(e) => getInputValue(e.target.value)}
+      <form className="Content" onSubmit={ handleSubmit } >
+        <input  type="text" placeholder="Search Stories By Title..." 
+                name="title"
+                onChange={ (e) => props.fetchSearchedWord(e.target.value) }
                 style={{ width: "30%"}}>
         </input>
-        <button onClick={handleSubmit} >
-          Search
-        </button>
+        <button > Search </button>
       </form>
-      <form className="Content" >
-        <input type="text" placeholder="Search Stories By Author..." style={{ width: "30%"}}
-                onChange={(e) => getInputValue(e.target.value)} >
+
+      <form className="Content" onSubmit={ handleSubmit } >
+        <input  type="text" placeholder="Search Stories By Author..." 
+                name="author"
+                onChange={ (e) => props.fetchSearchedWord(e.target.value) }
+                style={{ width: "30%"}}>
         </input>
-        <button onClick={fetchStoriesByAuthor} >
-          Search
-        </button>
+        <button > Search </button>
       </form>
-        {console.log(`Inside component: ${props.storiesByTitle}`)}
-      
-        
-      {/* { storiesByTitle && storiesByTitle["hits"].map(hit => {
-        return (
-          <div >
-            <article >
-              <div>
-                <h6> 
-                  { hit.title }
-                  ( <a href={`${hit.url}`}> 
-                    <span> {hit.url} </span>
-                  </a> ) - By: {hit.author}
-                </h6>
-              </div>
-            </article>
-          </div>
-          )
-        })
-      } */}
+        {/* Stories by Title */}
+        { props.storiesByTitle && props.storiesByTitle.map(story => {
+          return (
+            <div key={ story.title } >
+                  <h6> 
+                  { story.id } 
+                    { story.title }
+                    ( <a href={`${story.url}`}> 
+                      <span> {story.url} </span>
+                    </a> ) - By: { story.author }
+                  </h6>
+            </div>
+            )
+          })
+        }
+
+        {/* Stories by Author */}
+        { props.storiesByAuthor && props.storiesByAuthor.map(story => {
+          return (
+            <div key={ story.title } >
+                  <h6> 
+                    { story.title }
+                    ( <a href={`${story.url}`}> 
+                      <span> {story.url} </span>
+                    </a> ) - By: { story.author }
+                  </h6>
+            </div>
+            )
+          })
+        }
     </div>
   )
 }
 
 const mapStateToProps = (state) => {
+  console.log("Inside maptStateToProp")
+  console.log(state)
   return {
     storiesByTitle: state.storiesByTitle,
     storiesByAuthor: state.storiesByAuthor,
@@ -71,7 +81,7 @@ const mapStateToProps = (state) => {
 }
 
 export default connect(mapStateToProps, {
-  fetchSearchedWord: fetchSearchedWord,
   fetchStoriesByTitle: fetchStoriesByTitle,
-  fetchStoriesByAuthor: fetchStoriesByAuthor
-})(Stories)
+  fetchStoriesByAuthor: fetchStoriesByAuthor,
+  fetchSearchedWord: fetchSearchedWord
+})(StoriesByTitle)

@@ -1,6 +1,5 @@
 import { combineReducers } from 'redux'
 
-
 export const storiesByTitleReducer = (state=[], action) => {
     switch(action.type) {
         case 'FETCH_STORIES_BY_TITLE':
@@ -20,8 +19,6 @@ export const storiesByAuthorReducer = (state=[], action) => {
 }
 
 export const searchedWordReducer = (word="", action) => {
-    console.log("Inside Reducers:")
-    console.log(word)
     switch(action.type) {
         case 'SEARCH_VALUE':
             return action.payload
